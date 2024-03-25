@@ -1,12 +1,17 @@
-import smtplib, ssl
+import smtplib
+import ssl
 from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 
 def send_email():
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
-    USERNAME = load_dotenv().get("USER_EMAIL")
-    PASSWORD = load_dotenv().get("USER_PASSWORD")
+    USERNAME = os.getenv("USER_EMAIL")
+    PASSWORD = os.getenv("USER_PASSWORD")
 
     message = """\
     Subject: Hi there
@@ -17,5 +22,6 @@ def send_email():
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(USERNAME, PASSWORD)
         server.sendmail(USERNAME, USERNAME, message)
-        
+
+
 send_email()
